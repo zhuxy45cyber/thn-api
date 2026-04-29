@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from mangum import Mangum
 from typing import Optional
 import sys
 import os
@@ -121,6 +122,7 @@ async def search_articles(
 
 
 @app.get(
+    "/articles/{slug}",
     tags=["Articles"],
     summary="Detail Artikel",
     response_description="Data lengkap satu artikel beserta kontennya",
@@ -161,3 +163,6 @@ async def get_labels():
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+-e 
+
+handler = Mangum(app)
